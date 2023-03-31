@@ -9,26 +9,25 @@ export default class Entry extends Component {
         this.state = {
             type: props.type,
             info: props.info,
-            isEditing: false,
+            isEditing: true,
+            index: null
         };
 
         this.edit = this.edit.bind(this);
     }
 
     edit(e) {
-        console.log('editing...');
         this.setState(Object.assign(this.state, {isEditing: true}));
-        console.log('parent Entry component: ', this);
     }
 
     render() {
-        const {type, info, isEditing} = this.state;    
-
+        const {info, isEditing} = this.state;    
+        
         return (
             <div>
                 { isEditing ? 
-                    <Editor info={info} type={type} parent={this}/> 
-                : [
+                    <Editor entry={this} pushEntry={this.props.pushEntry}/> 
+                : info !== null && [
                     <Listicle info={info} />,
                     <button onClick={this.edit}>Edit</button>
                 ]

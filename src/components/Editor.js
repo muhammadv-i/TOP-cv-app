@@ -4,7 +4,7 @@ export default class Editor extends Component {
     constructor(props) {
         super(props);
 
-        this.state = props;
+        this.state = props.entry.state;
 
         this.handleSave = this.handleSave.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -15,15 +15,14 @@ export default class Editor extends Component {
         newState.info[key] = e.target.value;
 
         this.setState( newState );
-
-        console.log(newState.info);
     }
 
     handleSave(e) {
-        console.log(this.state);
-        const parent = this.state.parent;
+        const entry = this.props.entry;
+        const newEntryInfo = {info: this.state.info, isEditing: false};
         
-        parent.setState(Object.assign(parent.state, {info: this.state.info, isEditing: false}));
+        entry.setState(Object.assign(entry.state, newEntryInfo));
+        this.props.pushEntry(entry.state.info);
     }
 
     render() {
@@ -31,19 +30,21 @@ export default class Editor extends Component {
 
         const items = [];
         for (const [key, val] of Object.entries(info)) {
-            items.push(
-                <div key={key}>
-                    <label htmlFor={key} name={key}><h3>{key}</h3></label>
-                    <input type="text" onChange={ ((e) => this.handleChange(key, e)) } value={val} />
-                </div>
-            )
+            if (key !== 'index') {
+                items.push(
+                    <div key={key}>
+                        <label htmlFor={key} name={key}><h3>{key}</h3></label>
+                        <input type="text" onChange={ ((e) => this.handleChange(key, e)) } value={val} required/>
+                    </div>
+                )
+            }
         }
-
+        
         return (
-            <>
+            <form onSubmit={this.handleSave}>
                 {items}
-                <button onClick={this.handleSave}>Save</button>
-            </>
+                <button type="submit">Save</button>
+            </form>
         );
     }
 }

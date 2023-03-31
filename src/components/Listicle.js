@@ -10,12 +10,14 @@ export default class Listicle extends Component {
 
         const items = [];
         for (const [key, val] of Object.entries(info)) {
-            items.push(
-                <div key={key}>
-                    <h3>{key}</h3>
-                    <p>{val}</p>
-                </div>
-            )
+            if (key !== 'index') {
+                items.push(
+                    <div key={key}>
+                        <h3>{key}</h3>
+                        <p>{val}</p>
+                    </div>
+                )
+            }
         }
 
         return (
