@@ -8,8 +8,8 @@ export default class App extends Component {
         return (
             <>
                 <Section add={false} type="personal">Personal Information</Section>
-                <Section add={true} type="education">Education</Section>
                 <Section add={true} type="work">Work Experience</Section>
+                <Section add={true} type="education">Education</Section>
             </>
         );
     }
